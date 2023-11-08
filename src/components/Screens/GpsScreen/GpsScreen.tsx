@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,11 +6,11 @@ import {
   ScrollView,
   PermissionsAndroid,
   Linking,
-} from 'react-native';
-import {Button} from 'react-native';
-import Geolocation from 'react-native-geolocation-service';
-import {backgroundStyle} from '../../../commons/Utils/Utils';
-import Section from '../../Section/Section';
+} from "react-native";
+import { Button } from "react-native";
+import Geolocation from "react-native-geolocation-service";
+import { backgroundStyle } from "../../../commons/styles";
+import Section from "../../Section/Section";
 
 interface Coordinates {
   coords: {
@@ -24,27 +24,27 @@ const GpsScreen = (): React.ReactNode => {
     string | undefined
   >(undefined);
   const [hasLocationAccess, setLocationAccess] = useState<boolean | undefined>(
-    undefined,
+    undefined
   );
   const [coordinates, setCoordinates] = useState<Coordinates | undefined>(
-    undefined,
+    undefined
   );
-  const [coordinatesLitteral, setCoordinatesLitteral] = useState<string>('');
+  const [coordinatesLitteral, setCoordinatesLitteral] = useState<string>("");
   const checkLocationAccess: any = async () => {
     await PermissionsAndroid.check(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    ).then(res => {
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    ).then((res) => {
       setLocationAccess(res);
     });
   };
   const requestLocationPermission = async () => {
     try {
       await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      ).then(access => {
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      ).then((access) => {
         setLocationAccessStatus(access);
         setLocationAccess(
-          access === PermissionsAndroid.RESULTS.GRANTED ? true : false,
+          access === PermissionsAndroid.RESULTS.GRANTED ? true : false
         );
       });
     } catch (err) {
@@ -53,16 +53,16 @@ const GpsScreen = (): React.ReactNode => {
   };
   const getUserLocation = () => {
     Geolocation.getCurrentPosition(
-      pos => {
+      (pos) => {
         setCoordinates(pos);
         setCoordinatesLitteral(
-          `${pos?.coords.latitude}, ${pos?.coords.longitude}`,
+          `${pos?.coords.latitude}, ${pos?.coords.longitude}`
         );
       },
-      error => {
+      (error) => {
         console.log(error.message);
       },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
     );
   };
 
@@ -81,7 +81,8 @@ const GpsScreen = (): React.ReactNode => {
     <SafeAreaView style={backgroundStyle}>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
+        style={backgroundStyle}
+      >
         <View style={backgroundStyle}>
           <Section title="Your position : ">
             {coordinates !== undefined && (
@@ -96,7 +97,7 @@ const GpsScreen = (): React.ReactNode => {
                 <>
                   <Text>
                     The app doesn't have access to your location.
-                    {'\n'}
+                    {"\n"}
                   </Text>
                   <Button
                     onPress={() => {
@@ -114,7 +115,7 @@ const GpsScreen = (): React.ReactNode => {
                   <Text>
                     The app cannot ask for your location anymore, this can be
                     changed in app settings.
-                    {'\n'}
+                    {"\n"}
                   </Text>
                   <Button
                     onPress={() => {
