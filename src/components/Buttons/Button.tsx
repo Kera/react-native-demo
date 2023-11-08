@@ -1,6 +1,6 @@
 import React from 'react';
 import RenderHtml from 'react-native-render-html';
-import {colors} from '../../commons/Colors';
+import {colors} from '../../commons/styles';
 
 export const Button = () => {
   const buttonHtml = {
