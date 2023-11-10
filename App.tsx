@@ -6,12 +6,12 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import HomeScreen from './src/components/Screens/HomeScreen/HomeScreen';
 import GpsScreen from './src/components/Screens/GpsScreen/GpsScreen';
 import CameraScreen from './src/components/Screens/CameraScreen/CameraScreen';
-import {IsDarkMode} from './src/commons/Utils/Utils';
+import { useColorScheme } from "react-native";
 import { headerStyle } from './src/components/Screens/HomeScreen/HomeScreen.style';
 
 function App(): JSX.Element {
   const Stack = createNativeStackNavigator();
-  const isDarkMode = IsDarkMode();
+  const isDarkMode = useColorScheme() === "dark";
 
   return (
     <NavigationContainer>
