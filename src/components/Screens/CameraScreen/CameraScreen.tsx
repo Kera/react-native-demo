@@ -16,12 +16,13 @@ import {
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import RNFS from "react-native-fs";
+import { showToast } from "../../ToastMessage/ToastMessage";
 import { backgroundStyle } from "../../../commons/styles";
 import { colors } from "../../../commons/styles";
-import CaptureCircle from "../../svg/CaptureCircle";
-import CloseCross from "../../svg/CloseCross";
-import DismissIcon from "../../svg/DismissIcon";
-import SaveIcon from "../../svg/SaveIcon";
+import CaptureCircle from "../../../commons/svg/CaptureCircle";
+import CloseCross from "../../../commons/svg/CloseCross";
+import DismissIcon from "../../../commons/svg/DismissIcon";
+import SaveIcon from "../../../commons/svg/SaveIcon";
 import styles from "./CameraScreen.style";
 
 const CameraScreen = (): React.ReactNode => {
@@ -45,7 +46,7 @@ const CameraScreen = (): React.ReactNode => {
             setModalVisibility(true);
           }));
     } catch (err) {
-      console.log(err);
+      showToast("error", "Error", "Something went wrong"), console.log(err);
     }
   };
   const savePics = async () => {
@@ -85,11 +86,20 @@ const CameraScreen = (): React.ReactNode => {
                 source={{ uri: "file://" + photoPath }}
               />
               <View style={styles.buttonView}>
-                <TouchableOpacity style={styles.buttonStyle} onPress={() => {
-                  savePics().then(() => {
-                    setModalVisibility(false);
-                  })
-                }}>
+                <TouchableOpacity
+                  style={styles.buttonStyle}
+                  onPress={() => {
+                    try {
+                      savePics().then(() => {
+                        setModalVisibility(false);
+                        showToast("success", "Successfully saved");
+                      });
+                    } catch (err) {
+                      showToast("error", "Error", "Something went wrong"),
+                        console.log(err);
+                    }
+                  }}
+                >
                   <Text style={styles.saveButtonTextStyle}>Save</Text>
                   <SaveIcon color={colors.razorPurple} height={20} width={20} />
                 </TouchableOpacity>
